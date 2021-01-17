@@ -34,6 +34,7 @@ namespace DP
             DP.C.Prototype.Use.Apply();
             DP.B.Strategy.Real.Use.Applay();
             DP.B.Mediator.Real.Use.Apply();
+            DP.S.Adapter.Real.Use.Applay();
 
             Console.ReadLine();
         } 
