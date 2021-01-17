@@ -33,6 +33,7 @@ namespace DP
             DP.C.FactoryMethod.Use.Applay();
             DP.C.Prototype.Use.Apply();
             DP.B.Strategy.Real.Use.Applay();
+            DP.B.Mediator.Real.Use.Apply();
 
             Console.ReadLine();
         } 
