@@ -30,6 +30,10 @@ namespace DP
                 () => S3_1()
                 ) ;
 
+            DP.C.FactoryMethod.Use.Applay();
+            DP.C.Prototype.Use.Apply();
+            DP.B.Strategy.Real.Use.Applay();
+
             Console.ReadLine();
         } 
         private static void S3_0()
