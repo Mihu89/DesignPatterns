@@ -1,5 +1,6 @@
 ﻿using DP.C.Singeton;
 using System;
+using System.Threading.Tasks;
 
 namespace DP
 {        // C - Creational B- Behavioral, S-Structural
@@ -16,16 +17,31 @@ namespace DP
         private static void CreationalPatterns()
         {
             Use.Applay();
+            /*
+           Computer comp = new Computer();
+           comp.Launch("Windows 8.1");
+           Console.WriteLine(comp.OS.Name);
 
-            Computer comp = new Computer();
-            comp.Launch("Windows 8.1");
-            Console.WriteLine(comp.OS.Name);
-
-            // у нас не получится изменить ОС, так как объект уже создан    
-            comp.OS = OS.getInstance("Windows 10");
-            Console.WriteLine(comp.OS.Name);
+           // у нас не получится изменить ОС, так как объект уже создан    
+           comp.OS = OS.getInstance("Windows 10");
+           Console.WriteLine(comp.OS.Name);    */
+            Parallel.Invoke(
+                () => S3_0() ,
+                () => S3_1()
+                ) ;
 
             Console.ReadLine();
+        } 
+        private static void S3_0()
+        {
+            Singleton3 singleton = Singleton3.GetInstance;
+            Console.WriteLine($"S3_0 {singleton.GetHashCode()}");
+
+        }
+        private static void S3_1()
+        {
+            Singleton3 singleton = Singleton3.GetInstance;
+            Console.WriteLine($"S3_1 {singleton.GetHashCode()}");
         }
     }
     class Computer

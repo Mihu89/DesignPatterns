@@ -55,6 +55,8 @@ namespace DP.C.Singeton
                 var c1 = Singleton1.GetInstance();
                 Console.WriteLine($"c1 {c1.GetHashCode()}");
             }
+
+           
         }
     }
 }
