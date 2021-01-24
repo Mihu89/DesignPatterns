@@ -1,4 +1,11 @@
-﻿using DP.C.Singeton;
+﻿using DP.B.ChainofResponsability;
+using DP.B.Iterator;
+using DP.B.Memento;
+using DP.C.Prototype.Example;
+using DP.C.Singeton;
+using DP.S.Adapter.Example;
+using DP.S.Bridge;
+using DP.S.Facade;
 using System;
 using System.Threading.Tasks;
 
@@ -9,13 +16,113 @@ namespace DP
         static void Main(string[] args)
         {
             Console.WriteLine("Design Patterns");
-            CreationalPatterns();
+            BehavioralPaterns();
+            // CreationalPatterns();
+            //StructuralPaterns();
 
             Console.Read();
         }
 
+        private static void BehavioralPaterns()
+        {
+            #region Chain of Responsability
+            Console.WriteLine("Chain of reasponsability");
+
+            Handler h1 = new ConcretHandler("Handler 1");
+            h1.Condition = (value) => value > -1 && value < 5;
+            
+            Handler h2 = new ConcretHandler("Handler 2");
+            h2.Condition = (value) => value >= 5 && value < 10;
+            
+            Handler h3 = new ConcretHandler("Handler 3");
+            h3.Condition = (value) => value > 10 && value < 20;
+
+            h1.Successor = h2;
+            h2.Successor = h3;
+
+            foreach (var i in new int[] {3, 4,6, 11, 12, 18 })
+            {
+                h1.HandleRequest(i);
+            }
+            #endregion
+
+            #region Iterator
+            Console.WriteLine("Iterator");
+
+            Aggregate<Iterator> ag = new Aggregate<Iterator>();
+
+            ag[0] = "A";
+            ag[1] = "B";
+            ag[2] = "C";
+
+            // Creating the iterator based on Aggregate instance
+            Iterator it = ag.CreateIterator()  as Iterator;
+
+            object item = it.First();
+            while (item != null)
+            {
+                Console.WriteLine(item);
+                item = it.Next();
+            }
+
+            #endregion
+
+            #region Mememnto
+            Console.WriteLine("Mememnto");
+
+            Originator<StateObject> current = new Originator<StateObject>();
+            current.SetState(new StateObject { Id = 1, Name = "Object one" });
+            CareTaker<StateObject>.SaveState(current);
+
+            current.SetState(new StateObject { Id = 2, Name = "Object two" });
+            CareTaker<StateObject>.SaveState(current);
+            current.ShowState(); 
+
+            current.SetState(new StateObject { Id = 3, Name = "Object three" });
+            CareTaker<StateObject>.SaveState(current);
+            current.ShowState();
+
+            // restore to specific state
+            CareTaker<StateObject>.RestoreState(current, 0);
+            current.ShowState();
+
+            #endregion
+        }
+
+        private static void StructuralPaterns()
+        {
+            #region Example of Adapter patern
+            Console.WriteLine("Adaptor Pattern");
+            ITarget t = new SomeTarget();
+            t.Request();
+
+            ITarget t2 = new Adapter();
+            t2.Request();
+
+            #endregion
+
+            #region Bridge
+
+            Console.WriteLine("Bridge");
+            Abstraction abstraction = new DerivedAbstraction();
+            abstraction.Implementor = new ConcretImplementorA();
+            abstraction.Operation();
+
+            abstraction.Implementor = new ConcretImplementorB();
+            abstraction.Operation();
+            #endregion
+
+            #region Facade
+            Console.WriteLine("Facade");
+            Facade facade = new Facade();
+            facade.CallOperaionsUnified();
+
+            #endregion
+        }
+
         private static void CreationalPatterns()
         {
+            #region Singleton
             Use.Applay();
             /*
            Computer comp = new Computer();
@@ -29,12 +136,47 @@ namespace DP
                 () => S3_0() ,
                 () => S3_1()
                 ) ;
+            #endregion
 
+            #region FactoryMethod
             DP.C.FactoryMethod.Use.Applay();
+            #endregion
+            #region Prototype
+            // Example 1
             DP.C.Prototype.Use.Apply();
-            DP.B.Strategy.Real.Use.Applay();
-            DP.B.Mediator.Real.Use.Apply();
-            DP.S.Adapter.Real.Use.Applay();
+            // Example 2
+            var prototype = new ConcretPrototype1
+            {
+                Property1 = "A",
+                Property2 = "B",
+                PrototypeDetails = new PrototypeDetails { Details = "prototype Details" }
+            };
+            var newObject = prototype.Clone() as ConcretPrototype1;
+            newObject.PrototypeDetails.Details = "New details from newObject";
+
+            Console.WriteLine(prototype);
+            Console.WriteLine(newObject);
+
+            var prototype2 = new ConcretPrototype2
+            {
+                OtherProperty = "Z",
+                Property1 = "X",
+                Property2 = "Y",
+                PrototypeDetails = new PrototypeDetails
+                {
+                    Details = "Prototype2 details"
+                }
+            };
+            // create new instance using prototype2
+            var newObject2 = prototype2.Clone() as ConcretPrototype2;
+            newObject2.Property1 = "P01";
+
+            Console.WriteLine(prototype2);
+            Console.WriteLine(newObject2);
+            #endregion
+            //DP.B.Strategy.Real.Use.Applay();
+            //DP.B.Mediator.Real.Use.Apply();
+            //DP.S.Adapter.Real.Use.Applay();
 
             Console.ReadLine();
         } 
