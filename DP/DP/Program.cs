@@ -1,10 +1,12 @@
 ﻿using DP.B.ChainofResponsability;
 using DP.B.Iterator;
 using DP.B.Memento;
+using DP.C.Builder;
 using DP.C.Prototype.Example;
 using DP.C.Singeton;
 using DP.S.Adapter.Example;
 using DP.S.Bridge;
+using DP.S.Decorator;
 using DP.S.Facade;
 using System;
 using System.Threading.Tasks;
@@ -16,9 +18,9 @@ namespace DP
         static void Main(string[] args)
         {
             Console.WriteLine("Design Patterns");
-            BehavioralPaterns();
-            // CreationalPatterns();
-            //StructuralPaterns();
+            // BehavioralPaterns();
+            //CreationalPatterns();
+            StructuralPaterns();
 
             Console.Read();
         }
@@ -118,6 +120,18 @@ namespace DP
             facade.CallOperaionsUnified();
 
             #endregion
+
+            #region Decorator
+            ConcretComponent component = new ConcretComponent();
+            ConcretDecoratorA decoratorA = new ConcretDecoratorA(component);
+            ConcretDecoratorB decoratorB = new ConcretDecoratorB(decoratorA);
+
+            component.Operation();
+
+            decoratorA.Operation();
+
+            decoratorB.Operation();
+            #endregion
         }
 
         private static void CreationalPatterns()
@@ -173,6 +187,18 @@ namespace DP
 
             Console.WriteLine(prototype2);
             Console.WriteLine(newObject2);
+            #endregion
+
+            #region Builder 
+            Director director = new Director();
+            CarBuilder builder = new CarBuilder();
+            director.ConstructSportCar(builder);
+            Car car = builder.GetResult();
+
+            CarManualBuilder carManualBuilder = new CarManualBuilder();
+            director.ConstructSportCar(carManualBuilder);
+
+            Manual manual = carManualBuilder.GetResult();
             #endregion
             //DP.B.Strategy.Real.Use.Applay();
             //DP.B.Mediator.Real.Use.Apply();
